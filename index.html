@@ -1,10 +1,23 @@
-<!DOCTYPE html>
 <html>
 	<head>
-		<title>hChenqi's blog</title>
+		<title>Chenqi's blog</title>
 	</head>
 	<body>
-		<h1>Hello World</h1>
-		<p>I'm hosted with GitHub Pages.</p>
+		<button onclick = func() style = "width:auto;height:20px">
+		get content
+		</button>
+		<p></p>
+		<script>
+			function func(){
+				req = new XMLHttpRequest();
+				req.onreadystatechange = function(){
+					if(req.readyState == 4 /*&& req.status == 200*/){
+						document.body.firstElementChild.nextElementSibling.textContent = "hit count = " + hit_count++ + "\n" + req.responseText;
+					}
+				};
+				req.open("GET", "text.txt", true);
+				req.send();
+			}
+		</script>
 	</body>
 </html>
