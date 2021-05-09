@@ -3,21 +3,17 @@
 		<title>Chenqi's blog</title>
 	</head>
 	<body>
-		<button onclick = func() style = "width:auto;height:20px">
-		get content
-		</button>
-		<p></p>
+		<div id = "content"></div>
+		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 		<script>
-			function func(){
-				req = new XMLHttpRequest();
-				req.onreadystatechange = function(){
-					if(req.readyState == 4 && req.status == 200){
-						document.body.firstElementChild.nextElementSibling.textContent = req.responseText;
-					}
-				};
-				req.open("GET", "text.txt", true);
-				req.send();
-			}
+			req = new XMLHttpRequest();
+			req.onreadystatechange = function(){
+				if(req.readyState == 4 /*&& req.status == 200*/){
+					document.getElementById('content').innerHTML = marked(req.responseText);;
+				}
+			};
+			req.open("GET", "content.md", true);
+			req.send();
 		</script>
 	</body>
 </html>
