@@ -12,7 +12,7 @@
 				req = new XMLHttpRequest();
 				req.onreadystatechange = function(){
 					if(req.readyState == 4 /*&& req.status == 200*/){
-						document.body.firstElementChild.nextElementSibling.textContent = "hit count = " + hit_count++ + "\n" + req.responseText;
+						document.body.firstElementChild.nextElementSibling.textContent = req.responseText;
 					}
 				};
 				req.open("GET", "text.txt", true);
