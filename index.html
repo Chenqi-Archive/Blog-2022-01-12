@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<link rel="icon" href="favicon.jpg"/>
 		<title>Chenqi's blog</title>
 	</head>
 	<body>
@@ -8,8 +9,8 @@
 		<script>
 			req = new XMLHttpRequest();
 			req.onreadystatechange = function(){
-				if(req.readyState == 4 /*&& req.status == 200*/){
-					document.getElementById('content').innerHTML = marked(req.responseText);;
+				if(req.readyState == 4 && req.status == 200){
+					document.getElementById('content').innerHTML = marked(req.responseText);
 				}
 			};
 			req.open("GET", "content.md", true);
