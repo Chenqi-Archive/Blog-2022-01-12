@@ -1,11 +1,10 @@
 <html>
-
 	<head>
 		<link rel="icon" href="favicon.jpg" />
 		<title>Chenqi's blog</title>
 		<style>
 			body {
-				width: 100%;
+				width: 98%;
 				height: fit-content;
 				margin: 0px auto;
 				font-family: Segoe UI, DengXian;
@@ -18,39 +17,16 @@
 					width: 900px;
 				}
 			}
-
+			
 			#menu-bar {
 				width: 100%;
-				height: 30px;
-				border: 1px;
+				height: 40px;
 				background-color: #d3ee90;
 			}
-
-			#button-back {
-				width: 50px;
-				height: 100%;
-				left: 0px;
-				top: 0px;
-				background-color: #dddddd;
-				float: left;
-				visibility: hidden;
-			}
-
-			#button-menu {
-				width: 50px;
-				height: 100%;
-				right: 0px;
-				top: 0px;
-				background-color: #dddddd;
-				float: right;				
-			}
-
+			
 			#title {
-				height: 100%;
-				left: 50px;
-				top: 0px;
 				text-align: center;
-    			font-weight: bold;
+				padding: 5px;
 			}
 			
 			#article-list {
@@ -70,82 +46,73 @@
 			    padding: 20px 50px 100px;
 			    margin: 5px 0;
 			}
-
 		</style>
 	</head>
 
 	<body>
-		<div id="menu-bar">
-			<div id="button-back" onclick="go_back()">
-				<svg style="width:100%;height:100%;fill:none;stroke:black;stroke-width:1">
-					<polyline points="20,7 10,15 20,23" />
-					<polyline points="10,15 40,15" />
-				</svg>
-			</div>
-			<div id="button-menu" onclick="show_or_hide_article_list()">
-				<svg style="width:100%;height:100%;fill:none;stroke:black;stroke-width:1">
-					<polyline points="10,10 40,10" />
-					<polyline points="10,15 40,15" />
-					<polyline points="10,20 40,20" />
-				</svg>
-			</div>			
+		<div id="menu-bar" onclick="show_or_hide_article_list()">
 			<div id="title">Chenqi's blog</div>
 		</div>
-		<div id="article-list"></div>
+		<div id="article-list" onclick="open_article(event)"></div>
 		<div id="article" style="display:none"></div>
 		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 		<script>
-			article_list = document.getElementById("article-list");
-			article = document.getElementById('article');
+			obj_article_list = document.getElementById('article-list');
+			obj_article = document.getElementById('article');
+			current_article_title = '';
 			req = new XMLHttpRequest();
 			function load_file(file_path, on_success){
 				req.onreadystatechange = function () {
-					if (req.readyState == 4 /*&& req.status == 200*/) { on_success(req.responseText); }
+					if (req.readyState == 4 && req.status == 200) { 
+						on_success(req.responseText); 
+					}
 				};
 				req.open('GET', file_path, true);
 				req.send();
 			}
 			function load_article_list(){
-				load_file('article list.txt', function(response){
+				load_file('article_list.txt', function(response){
 					var articles = response.split('\n');
 					for(let i = 0; i < articles.length; i++){
-						let article_title = document.createElement('div');
-						article_title.id = 'article-title';
-						article_title.innerText = articles[i];
-						article_title.onclick = function(){load_article(article_title.innerText);};
-						article_list.appendChild(article_title);
+						if(articles[i] == '') { continue; }
+						let obj_article_title = document.createElement('div');
+						obj_article_title.id = 'article-title';
+						obj_article_title.innerText = articles[i];
+						obj_article_list.appendChild(obj_article_title);
 					}
 				});
 			}
 			function load_article(article_title) {
 				load_file('articles/' + article_title + '.md', function(response){
-					article.innerHTML = marked(response);
-					article.style.display = 'block';					
+					obj_article.innerHTML = marked(response);
+					obj_article.style.display = 'block';					
 				});
-				article_stack.push(article_title);
-				document.getElementById("button-back").style.visibility = 'visible';
-				article_list.style.display = 'none';
+				obj_article_list.style.display = 'none';
+				current_article_title = article_title;
 			}
-			function go_back() {
-				if(article_stack.length == 0) {throw '';}
-				article_stack.pop();
-				if(article_stack.length == 0) {
-					article_list.style.display = 'block';
-					article.style.display = 'none';
-					document.getElementById("button-back").style.visibility = 'hidden';
-				} else{
-					load_article(article_stack.pop());
+			function open_article(event){
+				if(event.target.id == 'article-title'){
+					load_article(event.target.innerText);
+					window.history.pushState({article_title:current_article_title}, current_article_title);
+				}
+			}
+			function on_pop_state(event){
+				if(event.state == null){
+					obj_article_list.style.display = 'block';
+					obj_article.style.display = 'none';
+				}else{
+					load_article(event.state.article_title);
 				}
 			}
 			function show_or_hide_article_list(){
-				if(article_list.style.display == 'none'){
-					article_list.style.display = 'block';
+				if(obj_article_list.style.display == 'none'){
+					obj_article_list.style.display = 'block';
 				} else {
-					article_list.style.display = 'none';
+					obj_article_list.style.display = 'none';
 				}
 			}
 			load_article_list();
-			article_stack = [];
+			window.onpopstate = on_pop_state;
 		</script>
 	</body>
 </html>
