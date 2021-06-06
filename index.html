@@ -59,7 +59,6 @@
 		<script>
 			obj_article_list = document.getElementById('article-list');
 			obj_article = document.getElementById('article');
-			current_article_title = '';
 			req = new XMLHttpRequest();
 			function load_file(file_path, on_success){
 				req.onreadystatechange = function () {
@@ -82,28 +81,6 @@
 					}
 				});
 			}
-			function load_article(article_title) {
-				load_file('articles/' + article_title + '.md', function(response){
-					obj_article.innerHTML = marked(response);
-					obj_article.style.display = 'block';					
-				});
-				obj_article_list.style.display = 'none';
-				current_article_title = article_title;
-			}
-			function open_article(event){
-				if(event.target.id == 'article-title'){
-					load_article(event.target.innerText);
-					window.history.pushState({article_title:current_article_title}, current_article_title);
-				}
-			}
-			function on_pop_state(event){
-				if(event.state == null){
-					obj_article_list.style.display = 'block';
-					obj_article.style.display = 'none';
-				}else{
-					load_article(event.state.article_title);
-				}
-			}
 			function show_or_hide_article_list(){
 				if(obj_article_list.style.display == 'none'){
 					obj_article_list.style.display = 'block';
@@ -111,8 +88,32 @@
 					obj_article_list.style.display = 'none';
 				}
 			}
+			function load_article(article_title) {
+				if(article_title != ''){
+					load_file('articles/' + article_title + '.md', function(response){
+						obj_article.innerHTML = marked(response);
+						obj_article.style.display = 'block';					
+					});
+					obj_article_list.style.display = 'none';
+				}else{
+					obj_article.style.display = 'none';
+					obj_article_list.style.display = 'block';
+				}
+			}
+			function open_article(event){
+				if(event.target.id == 'article-title'){
+					location.hash = '#' + event.target.innerText;
+				}
+			}
+			function on_hash_change(){
+				load_article(location.hash.substring(1));
+			}
+			function on_load(){
+				on_hash_change();
+			}
 			load_article_list();
-			window.onpopstate = on_pop_state;
+			window.onhashchange = on_hash_change;
+			window.onload = on_load;
 		</script>
 	</body>
 </html>
