@@ -11,7 +11,7 @@
 				font-size: 18px;
 				line-height: 1.6;
 			}
-
+			
 			@media (min-width:900px) {
 				body {
 					width: 900px;
@@ -20,41 +20,60 @@
 			
 			#menu-bar {
 				width: 100%;
-				height: 40px;
+				height: 35px;
 				background-color: #d3ee90;
 			}
 			
 			#title {
+				display: block;
 				text-align: center;
-				padding: 5px;
+				padding: 3px;
 			}
 			
 			#article-list {
 				margin: 5px 0px;
 			}
 			
-			#article-title {
+			.article-title {
+				display: block;
 				border: 1px solid #ddd;
 				padding: 10px 10px;
 				margin-bottom: -1px;
-				font-size: 20px;
+				font-family: FangSong;
+				font-size: 21px;
 			}
-
+			
+			a {
+				text-decoration: none;
+				color: #483d8b;
+			}
+			
 			#article {
 				border: 3px solid #ddd;
-			    border-radius: 10px;
+			    border-radius: 5px;
 			    padding: 20px 50px 100px;
 			    margin: 5px 0;
+			}
+			
+			footer {
+				margin: 20px 0px;
+				text-align: center;
+				font-size: 16px;
 			}
 		</style>
 	</head>
 
 	<body>
-		<div id="menu-bar" onclick="show_or_hide_article_list()">
-			<div id="title">Chenqi's blog</div>
+		<div id="menu-bar">
+			<a id="title" href="#">Chenqi's blog</a>
 		</div>
-		<div id="article-list" onclick="open_article(event)"></div>
-		<div id="article" style="display:none"></div>
+		<div id="article-list" style="display:none"></div>
+		<div id="article" style="display:none" title=""></div>
+		<footer>
+			本站内容使用
+			<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+			协议授权
+		</footer>
 		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 		<script>
 			obj_article_list = document.getElementById('article-list');
@@ -71,38 +90,38 @@
 			}
 			function load_article_list(){
 				load_file('article_list.txt', function(response){
-					var articles = response.split('\n');
-					for(let i = 0; i < articles.length; i++){
-						if(articles[i] == '') { continue; }
-						let obj_article_title = document.createElement('div');
-						obj_article_title.id = 'article-title';
-						obj_article_title.innerText = articles[i];
-						obj_article_list.appendChild(obj_article_title);
+					var article_list = response.split('\r\n');
+					for(let i = 0; i < article_list.length; i++){
+						if(article_list[i] == '') { 
+							obj_article_list.appendChild(document.createElement('br'));
+						} else {
+							let obj_article_title = document.createElement('a');
+							obj_article_title.className = 'article-title';
+							obj_article_title.href = '#'+ article_list[i];
+							obj_article_title.innerText = article_list[i];
+							obj_article_list.appendChild(obj_article_title);
+						}
 					}
 				});
 			}
-			function show_or_hide_article_list(){
-				if(obj_article_list.style.display == 'none'){
-					obj_article_list.style.display = 'block';
-				} else {
-					obj_article_list.style.display = 'none';
-				}
-			}
 			function load_article(article_title) {
-				if(article_title != ''){
-					load_file('articles/' + article_title + '.md', function(response){
-						obj_article.innerHTML = marked(response);
-						obj_article.style.display = 'block';					
-					});
-					obj_article_list.style.display = 'none';
-				}else{
-					obj_article.style.display = 'none';
+				if(article_title == ''){
+					if(obj_article_list.innerHTML == ''){
+						load_article_list();
+					}
 					obj_article_list.style.display = 'block';
-				}
-			}
-			function open_article(event){
-				if(event.target.id == 'article-title'){
-					location.hash = '#' + event.target.innerText;
+					obj_article.style.display = 'none';
+					document.title = 'Chenqi\'s Blog';
+				}else{
+					if(obj_article.title != article_title){
+						obj_article.title = article_title;
+						load_file('articles/' + article_title + '.md', function(response){
+							obj_article.innerHTML = marked(response);
+						});
+					}
+					obj_article_list.style.display = 'none';
+					obj_article.style.display = 'block';
+					document.title = article_title + ' - Chenqi\'s Blog';
 				}
 			}
 			function on_hash_change(){
@@ -111,9 +130,9 @@
 			function on_load(){
 				on_hash_change();
 			}
-			load_article_list();
 			window.onhashchange = on_hash_change;
 			window.onload = on_load;
+			load_article_list();
 		</script>
 	</body>
 </html>
