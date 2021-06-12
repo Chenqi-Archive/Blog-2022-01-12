@@ -107,7 +107,7 @@
 			}
 			function load_article_list(){
 				load_file('article_list.txt', function(response){
-					var article_list = response.split('\r\n');
+					var article_list = response.split(/\r?\n/);
 					for(let i = 0; i < article_list.length; i++){
 						if(article_list[i] == '') { 
 							obj_article_list.appendChild(document.createElement('br'));
