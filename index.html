@@ -31,7 +31,6 @@
 			
 			img {
 				display: block;
-				width: 70%;
 				margin: auto;
 			}
 			
@@ -98,7 +97,7 @@
 			req = new XMLHttpRequest();
 			function load_file(file_path, on_success){
 				req.onreadystatechange = function () {
-					if (req.readyState == 4 && req.status == 200) { 
+					if (req.readyState == 4 /*&& req.status == 200*/) { 
 						on_success(req.responseText); 
 					}
 				};
@@ -132,6 +131,7 @@
 				}else{
 					if(obj_article.title != article_title){
 						obj_article.title = article_title;
+						obj_article.innerHTML = '';
 						load_file('articles/' + article_title + '.md', function(response){
 							obj_article.innerHTML = marked(response);
 						});

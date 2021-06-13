@@ -1,3 +1,45 @@
+```c
+enum bool_enum { 
+    false_enum, 
+    true_enum 
+};
+```
+
+
+
+```c++
+using false_type = struct {};
+using true_type = struct {};
+using bool_type = std::variant<false, true>;
+```
+
+
+
+```c
+struct bool_struct {
+    bool_enum _bool_enum;
+};
+
+struct false_struct : public bool_struct {
+    false_struct() { _bool_enum = false_enum; }
+};
+
+struct true_struct : public bool_struct {
+    false_struct() { _bool_enum = true_enum; }
+};
+```
+
+
+
+```c
+void f(bool_enum b) {
+    switch (b) {
+        case false_enum: ...; break;
+        case true_enum: ...; break;
+    }
+}
+```
+
 
 
 
