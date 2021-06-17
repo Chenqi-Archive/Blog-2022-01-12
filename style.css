@@ -1,16 +1,11 @@
 body {
 	width: 98%;
+	max-width: 850px;
 	height: fit-content;
 	margin: 0px auto;
 	font-family: Segoe UI, DengXian;
 	font-size: 18px;
 	line-height: 1.6;
-}
-
-@media (min-width:850px) {
-	body {
-		width: 850px;
-	}
 }
 
 h1 {
