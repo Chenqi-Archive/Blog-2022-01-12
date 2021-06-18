@@ -4,7 +4,7 @@ req = new XMLHttpRequest();
 
 function load_file(file_path, on_success){
 	req.onreadystatechange = function () {
-		if (req.readyState == 4 && req.status == 200) { 
+		if (req.readyState == 4 && (req.status == 0 || req.status == 200)) { 
 			on_success(req.responseText); 
 		}
 	};
