@@ -38,8 +38,8 @@ function load_article(article_title) {
 		obj_article.style.display = 'none';
 		document.title = 'Chenqi\'s Blog';
 	}else{
-		if(obj_article.title != article_title){
-			obj_article.title = article_title;
+		if(obj_article.dataset.title != article_title){
+			obj_article.dataset.title = article_title;
 			obj_article.innerHTML = '';
 			load_file('articles/' + article_title + '.md', function(response){
 				obj_article.innerHTML = marked(response);
