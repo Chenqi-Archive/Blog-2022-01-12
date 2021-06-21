@@ -3,7 +3,7 @@ body {
 	max-width: 850px;
 	height: fit-content;
 	margin: 0px auto;
-	font-family: Segoe UI, DengXian;
+	font-family: Calibri, DengXian;
 	font-size: 18px;
 	line-height: 1.6;
 }
@@ -73,6 +73,7 @@ pre {
 	border: 1px solid #e7eaed;
 	border-radius: 3px;
 	padding: 5px 10px;
+	overflow-x: auto;
 }
 
 code {
@@ -83,6 +84,12 @@ code {
 a {
 	text-decoration: none;
 	color: #483d8b;
+}
+
+hr {
+	width: 70%;
+	margin-block-start: 3em;
+	margin-block-end: 3em;
 }
 
 footer {
@@ -112,7 +119,7 @@ footer {
 	border: 1px solid #ddd;
 	padding: 10px 10px;
 	margin-bottom: -1px;
-	font-family: FangSong;
+	font-family: STFangSong;
 	font-size: 21px;
 }
 
