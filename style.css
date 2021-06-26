@@ -98,20 +98,26 @@ footer {
 	font-size: 16px;
 }
 
-#menu-bar {
-	width: 100%;
-	height: 35px;
-	background-color: #d3ee90;
-}
-
 #title {
 	display: block;
+	width: 100%;
+	height: 30px;
+	padding: 5px;
 	text-align: center;
-	padding: 3px;
+	font-family: "Segoe UI";
+	background-color: #d7f7ad;
 }
 
 #article-list {
 	margin: 5px 0px;
+}
+
+.article-group {
+	border-left: 2px solid #aaa;
+	margin: 20px 0px;
+	padding: 2px 5px;
+	font-family: STFangSong;
+	font-size: 24px;
 }
 
 .article-title {
