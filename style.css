@@ -102,7 +102,7 @@ footer {
 	display: block;
 	width: 100%;
 	height: 30px;
-	padding: 5px;
+	padding: 5px 0px;
 	text-align: center;
 	font-family: "Segoe UI";
 	background-color: #d7f7ad;
@@ -110,13 +110,13 @@ footer {
 
 #article-list {
 	margin: 5px 0px;
+	font-family: STFangSong, FangSong, DengXian;
 }
 
 .article-group {
 	border-left: 2px solid #aaa;
 	margin: 20px 0px;
 	padding: 2px 5px;
-	font-family: STFangSong;
 	font-size: 24px;
 }
 
@@ -125,7 +125,6 @@ footer {
 	border: 1px solid #ddd;
 	padding: 10px 10px;
 	margin-bottom: -1px;
-	font-family: STFangSong;
 	font-size: 21px;
 }
 
