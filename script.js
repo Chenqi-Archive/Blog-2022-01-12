@@ -1,26 +1,28 @@
-obj_article_list = document.getElementById('article-list');
-obj_article = document.getElementById('article');
-req = new XMLHttpRequest();
+var obj_article_list = document.getElementById('article-list');
+var obj_article = document.getElementById('article');
+var request = new XMLHttpRequest();
+var article_dir_map = new Map();
+
 
 function load_file(file_path, on_success){
-	req.onreadystatechange = function () {
-		if (req.readyState == 4 && (req.status == 0 || req.status == 200)) { 
-			on_success(req.responseText); 
+	request.onreadystatechange = function () {
+		if (request.readyState == 4 && (request.status == 0 || request.status == 200)) { 
+			on_success(request.responseText); 
 		}
 	};
-	req.open('GET', file_path, true);
-	req.send();
+	request.open('GET', file_path, false);
+	request.send();
 }
 
 function load_article_list(){
 	load_file('article_list.txt', function(response){
-		let article_list = response.split(/\r?\n/);
+		const article_list = response.split(/\r?\n/);
 		let current_dir = '';
-		for(let i = 0; i < article_list.length; i++){
-			if(article_list[i] == '') { 
+		for(const article_title of article_list){
+			if(article_title == '') { 
 				obj_article_list.appendChild(document.createElement('br'));
-			} else if(article_list[i][0] == '#'){
-				let article_group = article_list[i].split(' ');
+			} else if(article_title[0] == '#'){
+				const article_group = article_title.split(' ');
 				let obj_article_title = document.createElement('div');
 				obj_article_title.className = 'article-group';
 				obj_article_title.innerText = article_group[1];
@@ -29,33 +31,31 @@ function load_article_list(){
 			} else {
 				let obj_article_title = document.createElement('a');
 				obj_article_title.className = 'article-title';
-				obj_article_title.href = '#'+ current_dir + '/' + article_list[i];
-				obj_article_title.innerText = article_list[i];
+				obj_article_title.href = '#'+ article_title;
+				obj_article_title.innerText = article_title;
 				obj_article_list.appendChild(obj_article_title);
+				article_dir_map[article_title] = current_dir;
 			}
 		}
 	});
 }
 
-function load_article(article_path) {
-	if(article_path == ''){
-		if(obj_article_list.innerHTML == ''){
-			load_article_list();
-		}
+function load_article(article_title) {
+	if(article_title == ''){
 		obj_article_list.style.display = 'block';
 		obj_article.style.display = 'none';
 		document.title = 'Chenqi\'s Blog';
 	}else{
-		if(obj_article.dataset.path != article_path){
-			obj_article.dataset.path = article_path;
+		obj_article_list.style.display = 'none';
+		obj_article.style.display = 'block';
+		document.title = article_title + ' - Chenqi\'s Blog';
+		if(obj_article.dataset.title != article_title){
+			obj_article.dataset.title = article_title;
 			obj_article.innerHTML = '';
-			load_file(article_path + '.md', function(response){
+			load_file(article_dir_map[article_title] + '/' + article_title + '.md', function(response){
 				obj_article.innerHTML = marked(response);
 			});
 		}
-		obj_article_list.style.display = 'none';
-		obj_article.style.display = 'block';
-		document.title = article_path.substring(article_path.lastIndexOf('/') + 1) + ' - Chenqi\'s Blog';
 	}
 }
 
@@ -67,6 +67,9 @@ function on_load(){
 	on_hash_change();
 }
 
+
+load_article_list();
+obj_article.dataset.title = '';
+
 window.onhashchange = on_hash_change;
 window.onload = on_load;
-load_article_list();
