@@ -47,7 +47,7 @@ function load_article(article_title) {
 		document.title = 'Chenqi\'s Blog';
 	}else{
 		obj_article_list.style.display = 'none';
-		obj_article.style.display = 'block';
+		obj_article.style.display = 'block'; obj_article.scrollIntoView();
 		document.title = article_title + ' - Chenqi\'s Blog';
 		if(obj_article.dataset.title != article_title){
 			obj_article.dataset.title = article_title;
