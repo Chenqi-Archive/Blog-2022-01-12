@@ -38,7 +38,12 @@ h6 {
    color: #777;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2 {
+	margin-block-start: 2em;
+	margin-block-end: 1.5em;
+}
+
+h3, h4, h5, h6 {
 	margin-block-start: 2em;
 	margin-block-end: 1em;
 }
@@ -120,7 +125,7 @@ footer {
 	font-size: 24px;
 }
 
-.article-title {
+.article-link {
 	display: block;
 	border: 1px solid #ddd;
 	padding: 10px 10px;
@@ -131,6 +136,13 @@ footer {
 #article {
 	border: 3px solid #ddd;
     border-radius: 5px;
-    padding: 20px 50px 100px;
-    margin: 5px 0;
+    padding: 20px 50px 70px;
+    margin: 10px 0;
+}
+
+#article-title {
+	border-bottom: 2px solid #ddd;
+    margin: 20px 0 30px;
+	font-size: 1.5em;
+	font-family: STFangSong, FangSong, DengXian;
 }

@@ -1,7 +1,9 @@
 var obj_article_list = document.getElementById('article-list');
 var obj_article = document.getElementById('article');
-var article_dir_map = new Map();
+var obj_article_title = document.getElementById('article-title');
+var obj_article_content = document.getElementById('article-content');
 
+var article_dir_map = new Map();
 var request = new XMLHttpRequest();
 
 
@@ -30,15 +32,15 @@ function load_article_list(){
 				obj_article_list.appendChild(obj_article_group);
 				current_dir = article_group[2];
 			} else {
-				let obj_article_title = document.createElement('a');
-				obj_article_title.className = 'article-title';
-				obj_article_title.href = '#'+ article_title;
-				obj_article_title.innerText = article_title;
-				obj_article_list.appendChild(obj_article_title);
+				let obj_article_link = document.createElement('a');
+				obj_article_link.className = 'article-link';
+				obj_article_link.href = '#'+ article_title;
+				obj_article_link.innerText = article_title;
+				obj_article_list.appendChild(obj_article_link);
 				article_dir_map[article_title] = current_dir;
 			}
 		}
-		load_article();		
+		load_article();
 	});
 }
 
@@ -52,24 +54,15 @@ function load_article(){
 		obj_article_list.style.display = 'none';
 		obj_article.style.display = 'block'; obj_article.scrollIntoView();
 		document.title = article_title + ' - Chenqi\'s Blog';
-		if(obj_article.dataset.title != article_title){
-			obj_article.dataset.title = article_title;
-			obj_article.innerHTML = '';
+		if(obj_article_title.innerText != article_title){
+			obj_article_title.innerText = article_title;
+			obj_article_content.innerHTML = '';
 			load_file(article_dir_map[article_title] + '/' + article_title + '.md', function(response){
-				obj_article.innerHTML = marked(response);
+				obj_article_content.innerHTML = marked(response);
 			});
 		}
 	}
 }
 
-function on_hash_change(){
-	load_article();
-}
-
-function on_load(){
-	obj_article.dataset.title = '';
-	load_article_list();
-}
-
-window.onhashchange = on_hash_change;
-window.onload = on_load;
+window.onhashchange = load_article;
+window.onload = load_article_list;
