@@ -1,10 +1,12 @@
 # 进行中 working
 什么是值类型
+控制字符
 
 # 已完成 finished
-c++中的union与继承
+union和继承
 自动机和群论
 有向无环图上的寄存器分配（一）
+unique_ptr的循环引用问题
 
 # 暂时搁置 delayed
 工具复杂性
