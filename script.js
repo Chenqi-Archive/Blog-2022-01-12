@@ -23,21 +23,22 @@ function load_article_list(){
 		let current_dir = '';
 		for(const article_title of article_list){
 			if(article_title == '') { 
-				obj_article_list.appendChild(document.createElement('br'));
+				let obj_br = document.createElement('br');
+				obj_article_list.appendChild(obj_br);
 			} else if(article_title[0] == '#'){
-				const article_group = article_title.split(' ');
 				let obj_article_group = document.createElement('div');
+				const article_group = article_title.split(' ');
 				obj_article_group.className = 'article-group';
 				obj_article_group.innerText = article_group[1];
-				obj_article_list.appendChild(obj_article_group);
 				current_dir = article_group[2];
+				obj_article_list.appendChild(obj_article_group);
 			} else {
 				let obj_article_link = document.createElement('a');
 				obj_article_link.className = 'article-link';
 				obj_article_link.href = '#'+ article_title;
 				obj_article_link.innerText = article_title;
-				obj_article_list.appendChild(obj_article_link);
 				article_dir_map[article_title] = current_dir;
+				obj_article_list.appendChild(obj_article_link);
 			}
 		}
 		load_article();
