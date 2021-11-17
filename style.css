@@ -95,7 +95,7 @@ blockquote {
 
 a {
 	text-decoration: none;
-	color: #483d8b;
+	color: darkslateblue;
 }
 
 hr {
@@ -130,7 +130,7 @@ footer {
 	font-family: STFangSong, FangSong, DengXian;
 }
 
-.article-group {
+.article-group-text {
 	border-left: 2px solid #aaa;
 	margin: 20px 0px;
 	padding: 2px 5px;
@@ -138,11 +138,17 @@ footer {
 }
 
 .article-link {
+	color: darkslateblue;
 	display: block;
 	border: 1px solid #ddd;
 	padding: 10px 10px;
 	margin-bottom: -1px;
 	font-size: 21px;
+}
+
+.article-link:hover {
+	cursor: pointer;
+	background-color: azure;
 }
 
 #article {

@@ -3,64 +3,52 @@ var obj_article = document.getElementById('article');
 var obj_article_title = document.getElementById('article-title');
 var obj_article_content = document.getElementById('article-content');
 
-var article_dir_map = new Map();
 var request = new XMLHttpRequest();
 
-
-function load_file(file_path, on_success){
-	request.onreadystatechange = function () {
-		if (request.readyState == 4 && (request.status == 0 || request.status == 200)) { 
-			on_success(request.responseText); 
-		}
-	};
-	request.open('GET', file_path);
-	request.send();
-}
-
-function load_article_list(){
-	load_file('article_list.txt', function(response){
-		const article_list = response.split(/\r?\n/);
-		let current_dir = '';
-		for(const article_title of article_list){
-			if(article_title == '') { 
-				let obj_br = document.createElement('br');
-				obj_article_list.appendChild(obj_br);
-			} else if(article_title[0] == '#'){
-				let obj_article_group = document.createElement('div');
-				const article_group = article_title.split(' ');
-				obj_article_group.className = 'article-group';
-				obj_article_group.innerText = article_group[1];
-				current_dir = article_group[2];
-				obj_article_list.appendChild(obj_article_group);
-			} else {
-				let obj_article_link = document.createElement('a');
-				obj_article_link.className = 'article-link';
-				obj_article_link.href = '#'+ article_title;
-				obj_article_link.innerText = article_title;
-				article_dir_map[article_title] = current_dir;
-				obj_article_list.appendChild(obj_article_link);
-			}
-		}
-		load_article();
+function load_file(path) {
+	return new Promise(resolve => {
+		request.onload = () => resolve(request.responseText);
+		request.open('GET', path); request.send();
 	});
 }
 
-function load_article(){
-	article_title = decodeURI(location.hash.substring(1));
-	if(article_title == ''){
+function create(element_type, class_name = '', child_list = [], callback = obj => { }) {
+	let obj = document.createElement(element_type); obj.className = class_name;
+	for (let child of child_list) { obj.appendChild(child); }
+	callback(obj);
+	return obj;
+}
+
+async function load_article_list() {
+	let group_list = JSON.parse(await load_file('article_index.json'));
+	for (let group of group_list) {
+		obj_article_list.appendChild(create('div', '', [
+			create('div', 'article-group-text', [], obj => obj.innerText = group.text),
+			create('div', '', [], obj => {
+				obj.onclick = event => window.location.hash = '#' + group.path + '/' + event.target.innerText;
+				for (let article of group.list) {
+					obj.appendChild(create('div', 'article-link', [], obj => obj.innerText = article))
+				}
+			})]));
+		obj_article_list.appendChild(create('br'));
+	}
+	load_article();
+}
+
+async function load_article() {
+	article_path = decodeURI(location.hash.substring(1));
+	if (article_path == '') {
 		obj_article_list.style.display = 'block';
 		obj_article.style.display = 'none';
 		document.title = 'Chenqi\'s Blog';
-	}else{
+	} else {
 		obj_article_list.style.display = 'none';
 		obj_article.style.display = 'block'; obj_article.scrollIntoView();
+		article_title = article_path.substring(article_path.lastIndexOf('/') + 1);
 		document.title = article_title + ' - Chenqi\'s Blog';
-		if(obj_article_title.innerText != article_title){
+		if (obj_article_title.innerText != article_title) {
 			obj_article_title.innerText = article_title;
-			obj_article_content.innerHTML = '';
-			load_file(article_dir_map[article_title] + '/' + article_title + '.md', function(response){
-				obj_article_content.innerHTML = marked(response);
-			});
+			obj_article_content.innerHTML = marked(await load_file(article_path + '.md'));
 		}
 	}
 }
