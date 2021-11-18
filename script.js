@@ -25,7 +25,7 @@ async function load_article_list() {
 		obj_article_list.appendChild(create('div', '', [
 			create('div', 'article-group-text', [], obj => obj.innerText = group.text),
 			create('div', '', [], obj => {
-				obj.onclick = event => window.location.hash = '#' + group.path + '/' + event.target.innerText;
+				obj.onclick = event => window.location.hash = group.path + '/' + event.target.innerText;
 				for (let article of group.list) {
 					obj.appendChild(create('div', 'article-link', [], obj => obj.innerText = article))
 				}
@@ -46,10 +46,9 @@ async function load_article() {
 		obj_article.style.display = 'block'; obj_article.scrollIntoView();
 		article_title = article_path.substring(article_path.lastIndexOf('/') + 1);
 		document.title = article_title + ' - Chenqi\'s Blog';
-		if (obj_article_title.innerText != article_title) {
-			obj_article_title.innerText = article_title;
-			obj_article_content.innerHTML = marked(await load_file(article_path + '.md'));
-		}
+		obj_article_title.innerText = article_title;
+		obj_article_content.innerHTML = '';
+		obj_article_content.innerHTML = marked(await load_file(article_path + '.md'));
 	}
 }
 
