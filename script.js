@@ -15,8 +15,7 @@ function load_file(path) {
 function create(element_type, class_name = '', child_list = [], callback = obj => { }) {
 	let obj = document.createElement(element_type); obj.className = class_name;
 	for (let child of child_list) { obj.appendChild(child); }
-	callback(obj);
-	return obj;
+	callback(obj); return obj;
 }
 
 async function load_article_list() {
@@ -29,7 +28,8 @@ async function load_article_list() {
 				for (let article of group.list) {
 					obj.appendChild(create('div', 'article-link', [], obj => obj.innerText = article))
 				}
-			})]));
+			})
+		]));
 		obj_article_list.appendChild(create('br'));
 	}
 	load_article();

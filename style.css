@@ -9,41 +9,45 @@ body {
 }
 
 h1 {
-    font-size: 1.8em;
-    line-height: 1.2;
-    border-bottom: 1px solid #eee;
+	font-size: 1.8em;
+	line-height: 1.2;
+	border-bottom: 1px solid #eee;
 }
 
 h2 {
-    font-size: 1.6em;
-    line-height: 1.2;
-    border-bottom: 1px solid #eee;
+	font-size: 1.6em;
+	line-height: 1.2;
+	border-bottom: 1px solid #eee;
 }
 
 h3 {
-    font-size: 1.4em;
-    line-height: 1.2;
+	font-size: 1.4em;
+	line-height: 1.2;
 }
 
 h4 {
-    font-size: 1.2em;
+	font-size: 1.2em;
 }
 
 h5 {
-    font-size: 1em;
+	font-size: 1em;
 }
 
 h6 {
-   font-size: 1em;
-   color: #777;
+	font-size: 1em;
+	color: #777;
 }
 
-h1, h2 {
+h1,
+h2 {
 	margin-block-start: 2em;
 	margin-block-end: 1.5em;
 }
 
-h3, h4, h5, h6 {
+h3,
+h4,
+h5,
+h6 {
 	margin-block-start: 2em;
 	margin-block-end: 1em;
 }
@@ -90,8 +94,8 @@ code {
 blockquote {
 	border-left: 2px solid #aaa;
 	margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-left: 20px;
+	margin-inline-end: 0px;
+	padding-left: 20px;
 }
 
 a {
@@ -154,14 +158,14 @@ footer {
 
 #article {
 	border: 3px solid #ddd;
-    border-radius: 5px;
-    padding: 20px 50px 70px;
-    margin: 10px 0;
+	border-radius: 5px;
+	padding: 20px 50px 70px;
+	margin: 10px 0;
 }
 
 #article-title {
 	border-bottom: 2px solid #ddd;
-    margin: 20px 0 30px;
+	margin: 20px 0 30px;
 	font-size: 1.5em;
 	font-family: STFangSong, FangSong, DengXian;
 }
