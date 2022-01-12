@@ -22,15 +22,21 @@ async function load_article_list() {
 	let group_list = JSON.parse(await load_file('article_index.json'));
 	for (let group of group_list) {
 		obj_article_list.appendChild(create('div', '', [
-			create('div', 'article-group-text', [], obj => obj.innerText = group.text),
+			create('div', 'article-group-text', [], obj => {
+				obj.innerText = group.text;
+				obj.onclick = () => {
+					let sibling = obj.nextElementSibling;
+					sibling.style.display = sibling.style.display == 'none' ? 'block' : 'none';
+				}
+			}),
 			create('div', '', [], obj => {
+				obj.style.display = 'none';
 				obj.onclick = event => window.location.hash = group.path + '/' + event.target.innerText;
 				for (let article of group.list) {
 					obj.appendChild(create('div', 'article-link', [], obj => obj.innerText = article))
 				}
 			})
 		]));
-		obj_article_list.appendChild(create('br'));
 	}
 	load_article();
 }
